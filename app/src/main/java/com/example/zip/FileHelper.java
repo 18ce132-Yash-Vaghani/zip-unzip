@@ -5,6 +5,7 @@ package com.example.zip;
  * Created by Tan on 3/7/2016.
  */
 
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
@@ -134,7 +135,7 @@ public class FileHelper {
 
 
 
-    public static  void saveToFile( String destinationPath, String data, String fileName){
+    /*public static  void saveToFile( String destinationPath, String data, String fileName){
         try {
             new File(destinationPath).mkdirs();
             File file = new File(destinationPath+ fileName);
@@ -149,9 +150,22 @@ public class FileHelper {
         }  catch(IOException ex) {
             Log.d(TAG, ex.getMessage());
         }
+    }*/
+
+    public static void deleteRecursive(File fileOrDirectory) {
+
+        if (fileOrDirectory.isDirectory())
+            for (File child : fileOrDirectory.listFiles())
+                deleteRecursive(child);
+
+        fileOrDirectory.delete();
+
+        File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ "/instinctcoder/zipunzip/data");
+        directory.mkdirs();
+
     }
 
 
 
 
-}
+    }
