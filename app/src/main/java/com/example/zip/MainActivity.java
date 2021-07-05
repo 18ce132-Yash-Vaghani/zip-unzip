@@ -26,6 +26,7 @@ import java.io.OutputStream;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private String SDPath = Environment.getExternalStorageDirectory().getAbsolutePath();
     private String dataPath = SDPath + "/instinctcoder/zipunzip/data/" ;
     private String zipPath = SDPath + "/instinctcoder/zipunzip/zip/" ;
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
     int requestcode = 1;
 
+
     @Override
     public void onActivityResult(int requestCode,int resultCode, Intent data)
     {
@@ -99,52 +101,56 @@ public class MainActivity extends AppCompatActivity {
             {
                 return;
             }
-            if (null != data.getClipData()){
+                    if (null != data.getClipData()){
 
-                String temp = "";
-                for(int i=0;i<data.getClipData().getItemCount();i++)
-                {
-                    Uri uri = data.getClipData().getItemAt(i).getUri();
-                    System.out.print(uri.getPath());
-                    String s1 = uri.getPath();
-                    filename = new File(uri.getPath()).getName();
-                    System.out.println("last:"+filename);
-                    String s2=s1.replace("/external_files","");
-                    String s3=s2.replace("primary:","");
-                    String s4=s3.replaceFirst("/document","");
-                    temp +=  SDPath+s4 + "\n";
-                    File f1 = new File(SDPath+s4);
-                    File f2 = new File( SDPath + "/instinctcoder/zipunzip/data"+"/"+filename);
-                    try {
-                        copyFile(f1,f2);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        String temp = "";
+                        for(int i=0;i<data.getClipData().getItemCount();i++)
+                        {
+                            Uri uri = data.getClipData().getItemAt(i).getUri();
+                            System.out.print(uri.getPath());
+                            String s1 = uri.getPath();
+                            filename = new File(uri.getPath()).getName();
+                            System.out.println("last:"+filename);
+                            String s2=s1.replace("/external_files","");
+                            String s3=s2.replace("primary:","");
+                            String s4=s3.replaceFirst("/document","");
+                            temp +=  SDPath+s4 + "\n";
+                            File f1 = new File(SDPath+s4);
+                            File f2 = new File( SDPath + "/instinctcoder/zipunzip/data"+"/"+filename);
+                            try {
+                                copyFile(f1,f2);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        tw1.setText(temp);
                     }
-                }
-                tw1.setText(temp);
+                    else
+                    {
+                        Uri uri = data.getData();
+                        System.out.println(uri.getLastPathSegment());
+                        String s1 = uri.getPath();
+                        filename = new File(uri.getPath()).getName();
+                        System.out.println("last:"+filename);
+                        String s2=s1.replace("/external_files","");
+                        String s3=s2.replace("primary:","");
+                        String s4=s3.replaceFirst("/document","");
+                        File f1 = new File(SDPath+s4);
+                        File f2 = new File(SDPath + "/instinctcoder/zipunzip/data"+"/"+filename);
+                        tw1.setText(SDPath+s4);
+                        try {
+                            copyFile(f1,f2);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
             }
-            else
-            {
-                Uri uri = data.getData();
-                System.out.println(uri.getLastPathSegment());
-                String s1 = uri.getPath();
-                filename = new File(uri.getPath()).getName();
-                System.out.println("last:"+filename);
-                String s2=s1.replace("/external_files","");
-                String s3=s2.replace("primary:","");
-                String s4=s3.replaceFirst("/document","");
-                File f1 = new File(SDPath+s4);
-                File f2 = new File(SDPath + "/instinctcoder/zipunzip/data"+"/"+filename);
-                tw1.setText(SDPath+s4);
-                try {
-                    copyFile(f1,f2);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+
         }
 
-    }
+
 
 
     public void picker(View view) {
@@ -190,23 +196,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void folderpicker(View view) {
-
-        Uri selectedUri = Uri.parse(SDPath);
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setDataAndType(selectedUri, "resource/folder");
-
-        if (intent.resolveActivityInfo(getPackageManager(), 0) != null)
-        {
-            startActivity(intent);
-        }
-        else
-        {
-            // if you reach this place, it means there is no any file
-            // explorer app installed on your device
-        }
-
-    }
 
     public void takename(View view){
 

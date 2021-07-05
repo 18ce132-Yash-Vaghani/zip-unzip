@@ -55,7 +55,6 @@
         android:id="@+id/tv"
         android:layout_width="394dp"
         android:layout_height="69dp"
-        android:layout_alignBottom="@+id/bt2"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
@@ -78,20 +77,6 @@
         android:layout_marginBottom="180dp"
         android:text="open"
         android:onClick="picker"/>
-
-    <Button
-        android:id="@+id/bt1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="164dp"
-        android:layout_marginRight="164dp"
-        android:layout_marginBottom="98dp"
-        android:onClick="folderpicker"
-        android:text="open" />
-
+    
 
 </RelativeLayout>
