@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">zip</string>
+    <string name="titlename"><b>Zip-Unzip</b></string>
 </resources>

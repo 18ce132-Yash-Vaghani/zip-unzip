@@ -1,10 +1,5 @@
 package com.example.zip;
 
-
-/**
- * Created by Tan on 3/7/2016.
- */
-
 import android.os.Environment;
 import android.util.Log;
 
@@ -133,25 +128,6 @@ public class FileHelper {
         return true;
     }
 
-
-
-    /*public static  void saveToFile( String destinationPath, String data, String fileName){
-        try {
-            new File(destinationPath).mkdirs();
-            File file = new File(destinationPath+ fileName);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileOutputStream fileOutputStream = new FileOutputStream(file,true);
-            fileOutputStream.write((data + System.getProperty("line.separator")).getBytes());
-
-        }  catch(FileNotFoundException ex) {
-            Log.d(TAG, ex.getMessage());
-        }  catch(IOException ex) {
-            Log.d(TAG, ex.getMessage());
-        }
-    }*/
-
     public static void deleteRecursive(File fileOrDirectory) {
 
         if (fileOrDirectory.isDirectory())
@@ -160,7 +136,7 @@ public class FileHelper {
 
         fileOrDirectory.delete();
 
-        File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ "/instinctcoder/zipunzip/data");
+        File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ "/webcare/zipunzip/data");
         directory.mkdirs();
 
     }

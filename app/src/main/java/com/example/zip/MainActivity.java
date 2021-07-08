@@ -8,10 +8,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.InputType;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,21 +25,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
 
     private String SDPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-    private String dataPath = SDPath + "/instinctcoder/zipunzip/data/" ;
-    private String zipPath = SDPath + "/instinctcoder/zipunzip/zip/" ;
-    private String unzipPath = SDPath + "/instinctcoder/zipunzip/unzip/" ;
+    private String dataPath = SDPath + "/webcare/zipunzip/data/" ;
+    private String zipPath = SDPath + "/webcare/zipunzip/zip/" ;
+    private String unzipPath = SDPath + "/webcare/zipunzip/unzip/" ;
     private String filename = "";
     private String zipFileName = "";
     private String unzipFolderName = "";
 
     final static String TAG = MainActivity.class.getName();
 
-    Button btnUnzip, btnZip;
+    ImageButton btnUnzip;
+    ImageButton btnZip;
     CheckBox chkParent;
     TextView tw1;
 
@@ -48,47 +52,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         tw1 = (TextView)findViewById(R.id.tv);
-        btnUnzip = (Button) findViewById(R.id.btnUnzip);
+        btnUnzip = (ImageButton) findViewById(R.id.btnUnzip);
         btnUnzip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 takenameforUNzip(v);
-
-
             }
         });
 
 
         chkParent = (CheckBox) findViewById(R.id.chkParent);
 
-        btnZip = (Button) findViewById(R.id.btnZip);
+        btnZip = (ImageButton) findViewById(R.id.btnZip);
         btnZip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Date date = Calendar.getInstance().getTime();
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-ddhh:mm:ss");
-                String strDate = dateFormat.format(date);*/
                 takename(v);
-
             }
         });
-
-
-
-
-        //Create dummy files
-       /* FileHelper.saveToFile(dataPath,"This is dummy data 01", "Dummy1.txt");
-        FileHelper.saveToFile(dataPath,"This is dummy data 02", "Dummy2.txt");
-        FileHelper.saveToFile(dataPath,"This is dummy data 03", "Dummy3.txt");*/
-
-
-
     }
 
     int requestcode = 1;
-
-
     @Override
     public void onActivityResult(int requestCode,int resultCode, Intent data)
     {
@@ -104,26 +88,33 @@ public class MainActivity extends AppCompatActivity {
                     if (null != data.getClipData()){
 
                         String temp = "";
+                        ArrayList<String> fileNameList = new ArrayList<>();
                         for(int i=0;i<data.getClipData().getItemCount();i++)
                         {
                             Uri uri = data.getClipData().getItemAt(i).getUri();
                             System.out.print(uri.getPath());
                             String s1 = uri.getPath();
                             filename = new File(uri.getPath()).getName();
+                            fileNameList.add(filename+"\n");
                             System.out.println("last:"+filename);
                             String s2=s1.replace("/external_files","");
                             String s3=s2.replace("primary:","");
                             String s4=s3.replaceFirst("/document","");
                             temp +=  SDPath+s4 + "\n";
                             File f1 = new File(SDPath+s4);
-                            File f2 = new File( SDPath + "/instinctcoder/zipunzip/data"+"/"+filename);
+                            File f2 = new File( SDPath + "/webcare/zipunzip/data"+"/"+filename);
                             try {
                                 copyFile(f1,f2);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
-                        tw1.setText(temp);
+                        String str = fileNameList.toString();
+                        str = str.substring(1, str.length()-1);
+                        str = str.replaceAll(", ","");
+                        tw1.setMovementMethod(new ScrollingMovementMethod());
+                        tw1.setText(str);
+
                     }
                     else
                     {
@@ -136,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                         String s3=s2.replace("primary:","");
                         String s4=s3.replaceFirst("/document","");
                         File f1 = new File(SDPath+s4);
-                        File f2 = new File(SDPath + "/instinctcoder/zipunzip/data"+"/"+filename);
+                        File f2 = new File(SDPath + "/webcare/zipunzip/data"+"/"+filename);
                         tw1.setText(SDPath+s4);
                         try {
                             copyFile(f1,f2);
@@ -200,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
     public void takename(View view){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Title");
+        builder.setTitle("Enter Zip File Name");
 
         // Set up the input
         final EditText input = new EditText(this);
@@ -236,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
     public void takenameforUNzip(View view){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Title");
+        builder.setTitle("Enter Folder Name");
 
         // Set up the input
         final EditText input = new EditText(this);
