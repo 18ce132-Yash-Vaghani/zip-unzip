@@ -2,6 +2,7 @@ package com.example.zip;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -37,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private String filename = "";
     private String zipFileName = "";
     private String unzipFolderName = "";
-
+    private ProgressDialog progressDialog = new ProgressDialog(this);
+    private  int t = 1;
     final static String TAG = MainActivity.class.getName();
 
     ImageButton btnUnzip;
@@ -204,7 +206,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 zipFileName = input.getText().toString();
+                progressDialog.setMessage("Loading...");
+                progressDialog.show();
                 if (FileHelper.zip(dataPath, zipPath, zipFileName+".zip", chkParent.isChecked())){
+                    progressDialog.dismiss();
                     Toast.makeText(MainActivity.this,"Zip successfully.",Toast.LENGTH_LONG).show();
                     File del = new File(dataPath+"/");
                     System.out.println("data"+del);

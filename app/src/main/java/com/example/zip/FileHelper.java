@@ -1,5 +1,7 @@
 package com.example.zip;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
@@ -14,10 +16,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-public class FileHelper {
+public class FileHelper{
     private static final int BUFFER_SIZE = 8192 ;//2048;
     private static String TAG= FileHelper.class.getName().toString();
     private static String parentPath ="";
+
+
 
 
     public static boolean zip( String sourcePath, String destinationPath, String destinationFileName, Boolean includeParentFolder)  {
